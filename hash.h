@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <cstring>
 #include "node.h"
 
@@ -8,11 +9,12 @@ class Hash {
   Hash(int sizeN);
   ~Hash();
   bool add(Node* data);
-  void deleter(Node* data);
+  void deleter(int);
   void print();
-  void copy(Hash &hash);
+  void copy(Hash* hash);
   Node* *table;
   int size;
-  unsigned int hashFunc(unsigned int id);
   void randAdd(int repeats);
+private:
+  unsigned int hashFunc(unsigned int id);
 };

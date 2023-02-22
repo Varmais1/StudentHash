@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cstring>
 #include <iomanip>
-#include "node.h"
+#include "hash.h"
 #include <math.h>
 
 void singlelowercase(char sentence[]);
@@ -9,7 +9,7 @@ void singlelowercase(char sentence[]);
 
 int main() {
   char command[10];
-  Node* *table = new Node*[100];
+  Hash* table= new Hash();
   while(true) {
     cout << "Type in add, delete, print, or quit." << endl;
     cin >> command;
@@ -17,7 +17,38 @@ int main() {
     if(strcmp(command, "quit") == 0) {
       break;
     }
-  
+    else if(strcmp(command, "print") ==0) {
+      table->print();
+    }
+    else if(strcmp(command, "add") == 0) {
+      char firstName[150];
+      char lastName[150];
+      int id;
+      float GPA;
+      cout << "Enter the first name." << endl;
+      cin >> firstName;
+      cout << "Enter the last name." << endl;
+      cin >> lastName;
+      cout << "Enter the id number. Please enter a number." << endl;
+      cin >> id;
+      cout << "Enter the GPA of the student. Please enter a number." << endl;
+      cin >> GPA;
+      bool sometimes_success = table->add(new Node(new Student(firstName,lastName,id,GPA)));
+      if(success == true) {
+	Hash* hash = new Hash(table->size * 2);
+	Hash* deleted = table;
+	table->copy(hash);
+	table = hash;
+	delete deleted;
+      }
+      //cout << "not success: " << !sometimes_success << endl;
+    }
+    else if(strcmp(command, "delete") == 0) {
+      cout << "What is the id of the student whose record you wish to delete?" << endl;
+      int id;
+      cin >> id;
+      table->deleter(id);
+    }
 
 
 
