@@ -5,6 +5,7 @@ void printNodes(Node* head);
 int listLen(Node* head);
 void deleteNode(Node* &head, Node* current, Node* previous, int id);
 
+//constructors
 Hash::Hash() {
   table = new Node*[101];
   size = 101;
@@ -15,28 +16,36 @@ Hash::Hash(int sizeN) {
   size = sizeN;
 }
 
-bool Hash::add(Node* data) {
+int Hash::add(Node* data) {
+  //get the index by passing the id through the hash function and modding by size
   unsigned int index = Hash::hashFunc((unsigned int)data->getStudent()->id) % size;
   //cout << "index: " << index << endl;
+  //if there is a student with the same id, return 2 to signify that error
   for(Node* loop = table[index]; loop != NULL; loop = loop->getNext()) {
     if(loop->getStudent()->id == data->getStudent()->id) {
-      cout << "Please enter a student with a unique id number." << endl;
-      return false;
+      return 2;
     }
   }
+  //if there is no student with the same id, then set the next of the element to the current head of the chain
   data->setNext(table[index]);
+  //make the current element the data point in the array
   table[index] = data;
+  //if the chain has a length less than or equal to 3, exit normally
   if(listLen(data) <= 3) {
-    return false;
+    return 0;
   }
-  return true;
+  //return 1 otherwise
+  return 1;
 }
 
 void Hash::deleter(int id) {
+  //get the index of the element
   int index = Hash::hashFunc((unsigned int)id) % size;
+  //delete the element from the chain
   deleteNode(table[index],table[index],NULL, id);
 }
 
+//for every single element in the array, print the entire chain
 void Hash::print() {
   for(int i = 0; i < size; i++) {
     printNodes(table[i]);
@@ -44,6 +53,7 @@ void Hash::print() {
   return;
 }
 
+//take every element of all chains and add it to the new hash table by looping through the entire table
 void Hash::copy(Hash* hash) {
   for(int i = 0; i < size; i++) {
     for(Node* loop = table[i]; loop != NULL; loop = loop->getNext()) {
@@ -53,9 +63,10 @@ void Hash::copy(Hash* hash) {
   return;
 }
 
+/*
 void Hash::randAdd(int repeats) {
   return;
-}
+  }*/
 
 //using the function from: https://stackoverflow.com/questions/664014/what-integer-hash-function-are-good-that-accepts-an-integer-hash-key
 unsigned int Hash::hashFunc(unsigned int x) {
@@ -65,6 +76,7 @@ unsigned int Hash::hashFunc(unsigned int x) {
     return x;
 }
 
+//destructor
 Hash::~Hash() {
   delete[] table;
 }

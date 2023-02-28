@@ -5,16 +5,24 @@
 
 class Hash {
  public:
+  //constructors and destructor
   Hash();
   Hash(int sizeN);
   ~Hash();
-  bool add(Node* data);
+  //adds an element into the table
+  int add(Node* data);
+  //deletes an element from the table
   void deleter(int);
+  //prints all elements in the table
   void print();
+  //copies the current hash table into another hash table
   void copy(Hash* hash);
+  //the array which the table stores heads of chains in
   Node* *table;
+  //size of table
   int size;
-  void randAdd(int repeats);
+  //void randAdd(int repeats);
 private:
+  //hash function
   unsigned int hashFunc(unsigned int id);
 };
